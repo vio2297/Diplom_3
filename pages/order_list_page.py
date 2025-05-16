@@ -5,18 +5,18 @@ from selenium.webdriver.common.by import By
 
 from locators.order_list_page_locators import OrderListPageLocators
 from pages.base_page import BasePage
+from selenium.webdriver.support import expected_conditions as ec
 
 
 class OrderListPage(BasePage):
     @allure.title('Авторизация')
     def login(self, email, password):
-        time.sleep(2)
+        self.wait_visibility_of_element(OrderListPageLocators.LOGIN_INTO_ACCOUNT_BUTTON)
         self.click_on_element(OrderListPageLocators.LOGIN_INTO_ACCOUNT_BUTTON)
         self.set_text_in_element(OrderListPageLocators.EMAIL_FIELD, email)
         self.set_text_in_element(OrderListPageLocators.PASSWORD_FIELD, password)
         self.click_on_element(OrderListPageLocators.LOGIN_BUTTON)
-        time.sleep(2)
-        self.wait_visibility_of_element(OrderListPageLocators.PERSONAL_ACCOUNT_BUTTON)
+        self.wait_visibility_of_element(OrderListPageLocators.MAKE_ORDER_BUTTON)
 
     @allure.title('Переход в раздел Лента заказов')
     def navigation_to_order_list(self):
@@ -40,9 +40,16 @@ class OrderListPage(BasePage):
         self.click_on_element(OrderListPageLocators.ORDER_HISTORY_BUTTON)
         self.wait_visibility_of_element(OrderListPageLocators.LOGOUT_BUTTON)
 
+
+    def wait_for_order_in_history(self):
+        self.wait_visibility_of_element(OrderListPageLocators.USER_ORDER_IN_HISTORY)
+
+    def wait_for_order_in_feed(self):
+        self.wait_visibility_of_element(OrderListPageLocators.ORDER_ITEM_LIST)
+
     @allure.step('Получаем последний номер заказа пользователя в Истории заказов')
     def get_order_nuber(self):
-        element = self.driver.find_element(*OrderListPageLocators.USER_ORDER_NUMBER_HISTORY)
+        element = self.wait_visibility_of_element(OrderListPageLocators.USER_ORDER_NUMBER_HISTORY)
         return element.text.replace('#', '').strip()
 
     @allure.step('Проверка, что номер заказа есть в Истории заказов')
@@ -57,7 +64,7 @@ class OrderListPage(BasePage):
         formatted_number = str(order_number).rjust(7, '0')
         order_number_with_hash = f"#{formatted_number}"
         xpath = f"//p[contains(@class, 'text_type_digits-default') and text()='{order_number_with_hash}']"
-        elements = self.driver.find_elements(By.XPATH, xpath)
+        elements = self.find_elements(By.XPATH, xpath)
         return len(elements) > 0
 
     @allure.step('Получение значения счетчика "Выполнено за все время"')
@@ -72,8 +79,22 @@ class OrderListPage(BasePage):
     def is_order_in_progress(self, order_number):
         formatted_number = str(order_number).rjust(7, '0')
         order_number_with_hash = f"#{formatted_number}"
-        elements = self.driver.find_elements(*OrderListPageLocators.ORDER_IN_PROGRESS)
+        elements = self.find_elements(OrderListPageLocators.ORDER_IN_PROGRESS)
         return any(order_number_with_hash in element.text for element in elements)
+
+
+    @allure.step('Обновили страницу')
+    def refresh(self):
+        self.driver.refresh()
+
+
+    @allure.step('Дожидаемся, чтобы число прогрузилось')
+    def wait_today_total_order_count_visible(self):
+        self.wait_visibility_of_element(OrderListPageLocators.TODAY_TOTAL_ORDER_COUNT)
+
+
+
+
 
 
 

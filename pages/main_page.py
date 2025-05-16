@@ -1,6 +1,7 @@
 import time
 
 import allure
+from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
 
 from locators.main_page_locators import MainPageLocators
@@ -11,12 +12,11 @@ class MainPage(BasePage):
 
     @allure.title('Авторизация')
     def login(self, email, password):
-        time.sleep(2)
+        self.wait_visibility_of_element(MainPageLocators.LOGIN_INTO_ACCOUNT_BUTTON)
         self.click_on_element(MainPageLocators.LOGIN_INTO_ACCOUNT_BUTTON)
         self.set_text_in_element(MainPageLocators.EMAIL_FIELD, email)
         self.set_text_in_element(MainPageLocators.PASSWORD_FIELD, password)
         self.click_on_element(MainPageLocators.LOGIN_BUTTON)
-        time.sleep(2)
         self.wait_visibility_of_element(MainPageLocators.INGREDIENT_BUTTON)
 
     @allure.step('Переход в раздел Конструктор')
@@ -51,10 +51,9 @@ class MainPage(BasePage):
     @allure.step('Получаем значение счетчика ингредиента')
     def get_ingredient_counter(self):
         try:
-            # если счетчик не отображается, значит он равен 0
             text = self.get_text_from_element(MainPageLocators.INGREDIENT_COUNTER)
             return int(text)
-        except Exception:
+        except (NoSuchElementException, TimeoutException):
             return 0
 
     @allure.step('Перетаскиваем ингредиент в корзину')

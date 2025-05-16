@@ -14,6 +14,7 @@ class OrderListPageLocators:
     ORDER_LIST_BUTTON = (By.XPATH, "//p[text()='Лента Заказов']")
     PERSONAL_ACCOUNT_BUTTON = (By.XPATH, "//p[text()='Личный Кабинет']")
     ORDER_HISTORY_BUTTON = (By.XPATH, '//a[text()="История заказов"]')
+    MAKE_ORDER_BUTTON = (By.XPATH, "//button[text()='Оформить заказ']")
 
     # Order List
     ORDER_ITEM_LIST = (By.XPATH, '(//li[contains(@class, "OrderHistory_listItem__2x95r")])[1]')

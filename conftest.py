@@ -54,3 +54,11 @@ def create_and_login_user():
 @pytest.fixture
 def main_page(driver):
     return MainPage(driver)
+
+
+@pytest.fixture
+def auth_and_navigate_constructor(main_page):
+    main_page.login(Login.EMAIL, Login.PASSWORD)
+    main_page.navigation_to_constructor()
+    assert main_page.check_element_displayed()
+

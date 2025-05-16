@@ -1,10 +1,6 @@
-import time
-
 import allure
-
 from api_client import ApiClient
 from data import Login, Urls
-from locators.order_list_page_locators import OrderListPageLocators
 
 
 class TestOrderListPage:
@@ -48,12 +44,13 @@ class TestOrderListPage:
         # Переходим в личный кабинет в раздел История заказов и проверяем что в списке есть заказ и получаем его номер
         order_list_page.login(Login.EMAIL, Login.PASSWORD)
         order_list_page.navigation_to_order_history()
-        time.sleep(2)
+        order_list_page.wait_for_order_in_history()
         assert order_list_page.get_current_url() == Urls.ORDER_HISTORY_URL
         assert order_list_page.is_order_in_history(order_number)
 
         # переходим в раздел Лента заказов и получаем номер последнего заказа
         order_list_page.navigation_to_order_list()
+        order_list_page.wait_for_order_in_feed()
         assert order_list_page.get_current_url() == Urls.ORDER_LIST_URL
         assert order_list_page.is_order_in_order_feed(order_number)
 
@@ -73,7 +70,7 @@ class TestOrderListPage:
 
         # Обновляем старицу
         driver.refresh()
-        order_list_page.wait_visibility_of_element(OrderListPageLocators.TOTAL_ORDERS_COUNT)
+        order_list_page.wait_today_total_order_count_visible()
 
         # Считываем значения счетчика после создания заказа
         new_count = order_list_page.get_total_orders_count()
@@ -93,7 +90,7 @@ class TestOrderListPage:
 
         # Обновляем старицу
         driver.refresh()
-        order_list_page.wait_visibility_of_element(OrderListPageLocators.TODAY_TOTAL_ORDER_COUNT)
+        order_list_page.wait_today_total_order_count_visible()
 
         # Считываем значения счетчика после создания заказа
         new_count = order_list_page.get_total_orders_count_for_today()
@@ -112,7 +109,7 @@ class TestOrderListPage:
 
         # Обновляем старицу
         driver.refresh()
-        order_list_page.wait_visibility_of_element(OrderListPageLocators.TODAY_TOTAL_ORDER_COUNT)
+        order_list_page.wait_today_total_order_count_visible()
 
         # Проверяем, что номер заказа появился в разделе В работе
         assert order_list_page.is_order_in_progress(order_number) , f"Заказ №{order_number} не найден в блоке 'В работе'"

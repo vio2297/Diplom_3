@@ -5,14 +5,15 @@ from selenium.webdriver.support import expected_conditions as ec
 
 class BasePage:
 
-    def __init__(self, driver):
+    def __init__(self, driver, timeout=10):
         self.driver = driver
+        self.wait = WebDriverWait(driver, timeout)
 
     def click_on_element(self, locator):
         self.driver.find_element(*locator).click()
 
-    def wait_visibility_of_element(self,locator):
-        return WebDriverWait(self.driver, 25).until(ec.visibility_of_element_located(locator))
+    def wait_visibility_of_element(self,locator, timeout=10):
+        return self.wait.until(ec.visibility_of_element_located(locator), message=f"Элемент {locator} не появился")
 
     @allure.step('Получаем адрес страницы')
     def get_current_url(self):
@@ -60,6 +61,7 @@ class BasePage:
     def search_text_in_element(self, xpath, text):
         elements = self.driver.find_elements(By.XPATH, xpath)
         return any(text in element.text for element in elements)
+
 
 
 

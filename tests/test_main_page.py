@@ -5,22 +5,15 @@ from data import Login, Urls
 
 class TestMainPage:
 
-    @allure.title("Авторизация. Навигация в конструктор")
-    def auth_and_navigation_to_constructor(self, main_page):
-        main_page.login(Login.EMAIL, Login.PASSWORD)
-        main_page.navigation_to_constructor()
-        assert main_page.check_element_displayed()
-
     @allure.title("Переход по клику на «Конструктор")
     @allure.description("Авторизация и переход в раздел Конструктор")
-    def test_navigation_to_constructor(self, driver, main_page):
-        self.auth_and_navigation_to_constructor(main_page)
+    def test_navigation_to_constructor(self, driver, main_page, auth_and_navigate_constructor):
+        pass
 
 
     @allure.title("Если кликнуть на ингредиент, появится всплывающее окно с деталями")
     @allure.description("Авторизация, переход в раздел конструктор, проверка, что при клике на ингредиент, появится всплывающее окно с деталями ")
-    def test_click_on_ingredient_opens_details(self, driver, main_page):
-        self.auth_and_navigation_to_constructor(main_page)
+    def test_click_on_ingredient_opens_details(self, driver, main_page, auth_and_navigate_constructor):
         main_page.click_on_element_opens_details()
         assert main_page.check_details_displayed()
 
@@ -28,8 +21,7 @@ class TestMainPage:
 
     @allure.title("Всплывающее окно закрывается кликом по крестику")
     @allure.description("Авторизация, переход в раздел конструктор,клик на ингредиент, появится всплывающее окно с деталями, проверяем, что его можно закрыть нажав на крестик")
-    def test_close_window_with_details_by_click_on_x(self, driver, main_page):
-        self.auth_and_navigation_to_constructor(main_page)
+    def test_close_window_with_details_by_click_on_x(self, driver, main_page, auth_and_navigate_constructor):
         main_page.click_on_element_opens_details()
         assert main_page.check_details_displayed()
         main_page.close_window_with_details()
