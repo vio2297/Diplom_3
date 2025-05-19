@@ -62,6 +62,11 @@ class BasePage:
         elements = self.driver.find_elements(By.XPATH, xpath)
         return any(text in element.text for element in elements)
 
+    @allure.step('Обновили страницу')
+    def refresh(self):
+        self.driver.refresh()
+
+
 
 
 

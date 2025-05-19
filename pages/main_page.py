@@ -1,5 +1,3 @@
-import time
-
 import allure
 from selenium.common import NoSuchElementException, TimeoutException
 from selenium.webdriver import ActionChains
@@ -37,7 +35,6 @@ class MainPage(BasePage):
     def click_on_element_opens_details(self):
         self.click_on_element(MainPageLocators.INGREDIENT_BUTTON)
         self.wait_visibility_of_element(MainPageLocators.INGREDIENT_DETAILS)
-        time.sleep(1)
 
     @allure.title('Проверка отображения окна с деталями')
     def check_details_displayed(self):

@@ -1,11 +1,9 @@
-import time
 
 import allure
 from selenium.webdriver.common.by import By
 
 from locators.order_list_page_locators import OrderListPageLocators
 from pages.base_page import BasePage
-from selenium.webdriver.support import expected_conditions as ec
 
 
 class OrderListPage(BasePage):
@@ -85,7 +83,7 @@ class OrderListPage(BasePage):
 
     @allure.step('Обновили страницу')
     def refresh(self):
-        self.driver.refresh()
+        super().refresh()
 
 
     @allure.step('Дожидаемся, чтобы число прогрузилось')
