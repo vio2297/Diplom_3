@@ -21,3 +21,14 @@ def auth_navigation_to_order_list(order_list_page):
     order_list_page.login(Login.EMAIL, Login.PASSWORD)
     order_list_page.navigation_to_order_list()
     assert order_list_page.get_current_url() == Urls.ORDER_LIST_URL
+
+@allure.title('Авторизация и переход в личный кабинет')
+def navigation_to_personal_account(personal_account_page):
+    personal_account_page.navigation_to_auth_acc()
+    personal_account_page.login(Login.EMAIL, Login.PASSWORD)
+    personal_account_page.navigation_to_personal_account()
+
+@allure.title("Заготовка для входа на страницу восстановления пароля")
+def transfer_to_recovery_test(password_recovery_page):
+    password_recovery_page.click_on_login_button()
+    password_recovery_page.click_on_password_recovery_button()

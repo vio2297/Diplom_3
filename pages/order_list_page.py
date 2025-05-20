@@ -39,9 +39,11 @@ class OrderListPage(BasePage):
         self.wait_visibility_of_element(OrderListPageLocators.LOGOUT_BUTTON)
 
 
+    @allure.step('Ждем пока заказ не появится в Истории заказов')
     def wait_for_order_in_history(self):
         self.wait_visibility_of_element(OrderListPageLocators.USER_ORDER_IN_HISTORY)
 
+    @allure.step('Ждем пока заказ не появится в Ленте заказов')
     def wait_for_order_in_feed(self):
         self.wait_visibility_of_element(OrderListPageLocators.ORDER_ITEM_LIST)
 

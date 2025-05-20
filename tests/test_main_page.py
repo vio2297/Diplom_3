@@ -8,7 +8,7 @@ class TestMainPage:
     @allure.title("Переход по клику на «Конструктор")
     @allure.description("Авторизация и переход в раздел Конструктор")
     def test_navigation_to_constructor(self, driver, main_page, auth_and_navigate_constructor):
-        assert main_page.check_element_displayed
+        assert main_page.check_element_displayed()
 
 
     @allure.title("Если кликнуть на ингредиент, появится всплывающее окно с деталями")

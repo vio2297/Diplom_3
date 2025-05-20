@@ -1,5 +1,4 @@
 import allure
-from api_client import ApiClient
 from data import Login, Urls
 from helpers import create_api_order, auth_navigation_to_order_list
 

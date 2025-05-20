@@ -9,9 +9,11 @@ class BasePage:
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout)
 
+    @allure.step('Кликнуть на элемент')
     def click_on_element(self, locator):
         self.driver.find_element(*locator).click()
 
+    @allure.step('Дождаться появления элемента на странице')
     def wait_visibility_of_element(self,locator, timeout=10):
         return self.wait.until(ec.visibility_of_element_located(locator), message=f"Элемент {locator} не появился")
 

@@ -60,6 +60,8 @@ class MainPage(BasePage):
         actions = ActionChains(self.driver)
         actions.drag_and_drop(ingredient, cart).perform()
 
+
+    @allure.step('Перетаскиваем ингредиенты в корзину и оформляем заказ')
     def drag_ingredient_to_cart_and_make_order(self):
         bun = self.wait_visibility_of_element(MainPageLocators.INGREDIENT_BUTTON)
         sauce = self.wait_visibility_of_element(MainPageLocators.SAUCE)
@@ -69,6 +71,8 @@ class MainPage(BasePage):
         actions.drag_and_drop(sauce, cart).perform()
         self.click_on_element(MainPageLocators.MAKE_ORDER_BUTTON)
 
+
+    @allure.step('Получаем сообщение об успешном заказе')
     def displaying_of_order_confirm(self):
         return self.check_displaying_of_element(MainPageLocators.ORDER_CONFIRM_MESSAGE)
 
